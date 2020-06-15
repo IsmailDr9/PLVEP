@@ -272,6 +272,24 @@
                     </ul>
                 </li>
 
+                <li class="nav-item has-treeview {{active_menu('malls')[0]}}">
+                    <a href="" class="nav-link">
+                        <i class="nav-icon fas fa-cube"></i>
+                        <p>
+                            Malls
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview {{active_menu('malls')[1]}}">
+                        <li class="nav-item">
+                            <a href="{{url('admin/malls')}}" class="nav-link">
+                                <i class="fa fa-cube"></i>
+                                Malls
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
 
                 <li class="nav-item">
                     <a href="{{route('admin.logout')}}" class="nav-link">

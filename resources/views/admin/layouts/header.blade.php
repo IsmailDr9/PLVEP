@@ -42,7 +42,7 @@
 </head>
     <?php
 
-    $array = ['manufacturers.index'];
+    $array = ['manufacturers.index', 'malls.index'];
 
     if (in_array(Route::currentRouteName(),$array)){
     ?>

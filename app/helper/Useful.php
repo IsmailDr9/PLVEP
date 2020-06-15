@@ -4,6 +4,7 @@ namespace App\helper;
 use App\Admin;
 use App\Model\City;
 //use App\Model\Manufacturer;
+use App\Model\Mall;
 use App\Model\Manufacturer;
 use App\Model\State;
 use App\User;
@@ -108,6 +109,20 @@ class Useful {
     {
         if (!is_null($id)) {
             $model = Manufacturer::find($id);
+            if (!empty($model)) {
+                return $model->name_en;
+            } else {
+                return '';
+            }
+        } else {
+            return '';
+        }
+    }
+
+    public static function getMallName($id)
+    {
+        if (!is_null($id)) {
+            $model = Mall::find($id);
             if (!empty($model)) {
                 return $model->name_en;
             } else {
