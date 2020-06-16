@@ -7,6 +7,7 @@ use App\Model\City;
 use App\Model\Color;
 use App\Model\Mall;
 use App\Model\Manufacturer;
+use App\Model\Size;
 use App\Model\State;
 use App\User;
 use Illuminate\Http\Request;
@@ -137,6 +138,20 @@ class Useful {
     {
         if (!is_null($id)) {
             $model = Color::find($id);
+            if (!empty($model)) {
+                return $model->name_en;
+            } else {
+                return '';
+            }
+        } else {
+            return '';
+        }
+    }
+
+    public static function getSizeName($id)
+    {
+        if (!is_null($id)) {
+            $model = Size::find($id);
             if (!empty($model)) {
                 return $model->name_en;
             } else {

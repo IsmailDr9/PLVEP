@@ -160,7 +160,7 @@
 
                 <li class="nav-item has-treeview {{active_menu('states')[0]}}">
                     <a href="" class="nav-link">
-                        <i class="nav-icon fas fa-city"></i>
+                        <i class="nav-icon fas fa-street-view"></i>
                         <p>
                             {{trans('admin.states')}}
                             <i class="right fas fa-angle-left"></i>
@@ -169,7 +169,7 @@
                     <ul class="nav nav-treeview {{active_menu('states')[1]}}">
                         <li class="nav-item">
                             <a href="{{url('admin/states')}}" class="nav-link">
-                                <i class="fas fa-city"></i>
+                                <i class="fa fa-street-view"></i>
                                 {{trans('admin.states')}}
                             </a>
                         </li>
@@ -178,7 +178,7 @@
 
                 <li class="nav-item has-treeview {{active_menu('posts')[0]}}">
                     <a href="" class="nav-link">
-                        <i class="nav-icon fas fa-city"></i>
+                        <i class="nav-icon fas fa-poo-storm"></i>
                         <p>
                             Posts
                             <i class="right fas fa-angle-left"></i>
@@ -187,7 +187,7 @@
                     <ul class="nav nav-treeview {{active_menu('posts')[1]}}">
                         <li class="nav-item">
                             <a href="{{url('admin/posts')}}" class="nav-link">
-                                <i class="fas fa-city"></i>
+                                <i class="fas fa-poo-storm"></i>
                                 Posts
                             </a>
                         </li>
@@ -220,7 +220,7 @@
 
                 <li class="nav-item has-treeview {{active_menu('brands')[0]}}">
                     <a href="" class="nav-link">
-                        <i class="nav-icon fas fa-cube"></i>
+                        <i class="nav-icon fas fa-trademark"></i>
                         <p>
                             Brands
                             <i class="right fas fa-angle-left"></i>
@@ -229,7 +229,7 @@
                     <ul class="nav nav-treeview {{active_menu('brands')[1]}}">
                         <li class="nav-item">
                             <a href="{{url('admin/brands')}}" class="nav-link">
-                                <i class="fa fa-cube"></i>
+                                <i class="fa fa-trademark"></i>
                                 Brands
                             </a>
                         </li>
@@ -238,7 +238,7 @@
 
                 <li class="nav-item has-treeview {{active_menu('manufacturers')[0]}}">
                     <a href="" class="nav-link">
-                        <i class="nav-icon fas fa-cube"></i>
+                        <i class="nav-icon fas fa-industry"></i>
                         <p>
                             Manufacturers
                             <i class="right fas fa-angle-left"></i>
@@ -247,7 +247,7 @@
                     <ul class="nav nav-treeview {{active_menu('manufacturers')[1]}}">
                         <li class="nav-item">
                             <a href="{{url('admin/manufacturers')}}" class="nav-link">
-                                <i class="fa fa-cube"></i>
+                                <i class="fa fa-industry"></i>
                                 Manufacturers
                             </a>
                         </li>
@@ -256,7 +256,7 @@
 
                 <li class="nav-item has-treeview {{active_menu('shippings')[0]}}">
                     <a href="" class="nav-link">
-                        <i class="nav-icon fas fa-cube"></i>
+                        <i class="nav-icon fas fa-shipping-fast"></i>
                         <p>
                             Shippings
                             <i class="right fas fa-angle-left"></i>
@@ -265,7 +265,7 @@
                     <ul class="nav nav-treeview {{active_menu('shippings')[1]}}">
                         <li class="nav-item">
                             <a href="{{url('admin/shippings')}}" class="nav-link">
-                                <i class="fa fa-cube"></i>
+                                <i class="fas fa-shipping-fast"></i>
                                 Shippings
                             </a>
                         </li>
@@ -274,7 +274,7 @@
 
                 <li class="nav-item has-treeview {{active_menu('malls')[0]}}">
                     <a href="" class="nav-link">
-                        <i class="nav-icon fas fa-cube"></i>
+                        <i class="nav-icon fas fa-building"></i>
                         <p>
                             Malls
                             <i class="right fas fa-angle-left"></i>
@@ -283,7 +283,7 @@
                     <ul class="nav nav-treeview {{active_menu('malls')[1]}}">
                         <li class="nav-item">
                             <a href="{{url('admin/malls')}}" class="nav-link">
-                                <i class="fa fa-cube"></i>
+                                <i class="fa fa-building"></i>
                                 Malls
                             </a>
                         </li>
@@ -301,8 +301,26 @@
                     <ul class="nav nav-treeview {{active_menu('colors')[1]}}">
                         <li class="nav-item">
                             <a href="{{url('admin/colors')}}" class="nav-link">
-                                <i class="fa fa-paint-brush"></i>
+                                <i class="fas fa-paint-roller"></i>
                                 Colors
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item has-treeview {{active_menu('sizes')[0]}}">
+                    <a href="" class="nav-link">
+                        <i class="nav-icon fa fa-size"></i>
+                        <p>
+                            Size
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview {{active_menu('sizes')[1]}}">
+                        <li class="nav-item">
+                            <a href="{{url('admin/sizes')}}" class="nav-link">
+                                <i class="fas fa-paint-roller"></i>
+                                Size
                             </a>
                         </li>
                     </ul>
