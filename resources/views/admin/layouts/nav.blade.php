@@ -290,6 +290,24 @@
                     </ul>
                 </li>
 
+                <li class="nav-item has-treeview {{active_menu('colors')[0]}}">
+                    <a href="" class="nav-link">
+                        <i class="nav-icon fa fa-paint-brush"></i>
+                        <p>
+                            Colors
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview {{active_menu('colors')[1]}}">
+                        <li class="nav-item">
+                            <a href="{{url('admin/colors')}}" class="nav-link">
+                                <i class="fa fa-paint-brush"></i>
+                                Colors
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
 
                 <li class="nav-item">
                     <a href="{{route('admin.logout')}}" class="nav-link">

@@ -131,6 +131,16 @@ $this->group(['prefix' => 'admin','namespace' => 'Admin'], function () {
          * End Malls Controller
          */
 
+        /**
+         * Colors Controller
+         */
+        $this->resource('colors','ColorsController');
+        $this->delete('colors/destroy/all','ColorsController@multiDelete')->name('colors.delete.all');
+
+        /**
+         * End Colors Controller
+         */
+
 
         $this->get('/home', function () {
 
