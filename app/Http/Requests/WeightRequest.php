@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CountryRequest extends FormRequest
+class WeightRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,24 +25,9 @@ class CountryRequest extends FormRequest
     {
         $rules = [];
 
-        $rules['country_name_ar'] = 'required';
+        $rules['name_ar'] = 'required';
 
-        $rules['country_name_en'] = 'required';
-
-        $rules['mob'] = 'required';
-
-        $rules['code'] = 'required';
-
-        $rules['currency'] = 'required';
-
-        if ($this->method() == 'POST'){
-
-            $rules['logo'] = 'required|'.validateImage();
-
-        }else{
-
-            $rules['logo'] = 'nullable|'.validateImage();
-        }
+        $rules['name_en'] = 'required';
 
         return $rules;
     }

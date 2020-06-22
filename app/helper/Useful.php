@@ -9,6 +9,7 @@ use App\Model\Mall;
 use App\Model\Manufacturer;
 use App\Model\Size;
 use App\Model\State;
+use App\Model\Weight;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
@@ -186,6 +187,35 @@ class Useful {
                 return '';
             }
         } else {
+            return '';
+        }
+    }
+
+    public static function getWeightName($id)
+    {
+        if (!is_null($id)) {
+
+            $state = Weight::find($id);
+
+            if (!empty($state)) {
+
+                if (session('lang') == 'en') {
+
+                    return $state->name_en;
+
+                } else {
+
+                    return $state->name_ar;
+
+                }
+
+            } else {
+
+                return '';
+            }
+
+        } else {
+
             return '';
         }
     }

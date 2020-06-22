@@ -2,14 +2,13 @@
 
 namespace App\DataTables;
 
-use App\Model\Country;
 use App\User;
+use App\Model\Weight;
 use App\helper\Useful;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Yajra\DataTables\Services\DataTable;
 
-class CountryDatatable extends DataTable
+class WeightDatatable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -21,9 +20,9 @@ class CountryDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('edit', 'admin.countries.btn.edit')
-            ->addColumn('delete', 'admin.countries.btn.delete')
-            ->addColumn('checkbox', 'admin.countries.btn.checkbox')
+            ->addColumn('edit', 'admin.weights.btn.edit')
+            ->addColumn('delete', 'admin.weights.btn.delete')
+            ->addColumn('checkbox', 'admin.weights.btn.checkbox')
             ->rawColumns([
                 'edit',
                 'delete',
@@ -39,7 +38,7 @@ class CountryDatatable extends DataTable
      */
     public function query()
     {
-        return Country::query();
+        return Weight::query();
     }
     /**
      * Optional method if you want to use html builder.
@@ -106,17 +105,13 @@ class CountryDatatable extends DataTable
                 'data' => 'id',
                 'title' => '#',
             ], [
-                'name' => 'country_name_ar',
-                'data' => 'country_name_ar',
-                'title' => 'country name ar',
+                'name' => 'name_ar',
+                'data' => 'name_ar',
+                'title' => 'Name Ar',
             ], [
-                'name' => 'country_name_en',
-                'data' => 'country_name_en',
-                'title' => 'country name en',
-            ], [
-                'name' => 'currency',
-                'data' => 'currency',
-                'title' => 'Currency',
+                'name' => 'name_en',
+                'data' => 'name_en',
+                'title' => 'Name En',
             ],[
                 'name' => 'created_at',
                 'data' => 'created_at',
@@ -152,6 +147,6 @@ class CountryDatatable extends DataTable
      */
     protected function filename()
     {
-        return 'countries_' . date('YmdHis');
+        return 'weights_' . date('YmdHis');
     }
 }

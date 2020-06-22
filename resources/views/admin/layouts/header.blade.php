@@ -36,6 +36,9 @@
 {{-- js tree--}}
     <link rel="stylesheet" href="{{url('/')}}/design/adminpanel/jstree/themes/default/style.css">
 
+{{-- js datepicker--}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+
 
     <!-- Google Font: Source Sans Pro -->
 {{--    <link href="{{url('/')}}/design/adminpanel/https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">--}}

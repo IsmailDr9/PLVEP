@@ -40,6 +40,13 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
+                            <input type="text" name="currency" value="{{old('currency')}}" class="form-control" placeholder="Enter currency code">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
                             {!! Form::file('logo',['class'=>'form-control']) !!}
                         </div>
                     </div>

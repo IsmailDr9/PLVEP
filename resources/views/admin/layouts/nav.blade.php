@@ -310,7 +310,7 @@
 
                 <li class="nav-item has-treeview {{active_menu('sizes')[0]}}">
                     <a href="" class="nav-link">
-                        <i class="nav-icon fa fa-size"></i>
+                        <i class="nav-icon fa fa-long-arrow-down"></i>
                         <p>
                             Size
                             <i class="right fas fa-angle-left"></i>
@@ -319,8 +319,44 @@
                     <ul class="nav nav-treeview {{active_menu('sizes')[1]}}">
                         <li class="nav-item">
                             <a href="{{url('admin/sizes')}}" class="nav-link">
-                                <i class="fas fa-paint-roller"></i>
+                                <i class="fas fa-arrow-circle-left"></i>
                                 Size
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item has-treeview {{active_menu('weights')[0]}}">
+                    <a href="" class="nav-link">
+                        <i class="nav-icon fas fa-weight-hanging"></i>
+                        <p>
+                            Weight
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview {{active_menu('weights')[1]}}">
+                        <li class="nav-item">
+                            <a href="{{url('admin/weights')}}" class="nav-link">
+                                <i class="fas fa-weight-hanging"></i>
+                                Weight
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item has-treeview {{active_menu('products')[0]}}">
+                    <a href="" class="nav-link">
+                        <i class="nav-icon fas fa-tags"></i>
+                        <p>
+                            Products
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview {{active_menu('products')[1]}}">
+                        <li class="nav-item">
+                            <a href="{{url('admin/products')}}" class="nav-link">
+                                <i class="fa fa-tags"></i>
+                                Products
                             </a>
                         </li>
                     </ul>

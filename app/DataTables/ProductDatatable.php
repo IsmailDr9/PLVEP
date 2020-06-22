@@ -2,14 +2,13 @@
 
 namespace App\DataTables;
 
-use App\Model\Country;
 use App\User;
 use App\helper\Useful;
-use Illuminate\Http\Request;
+use App\Model\Product;
 use Illuminate\Support\Facades\URL;
 use Yajra\DataTables\Services\DataTable;
 
-class CountryDatatable extends DataTable
+class ProductDatatable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -21,9 +20,9 @@ class CountryDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('edit', 'admin.countries.btn.edit')
-            ->addColumn('delete', 'admin.countries.btn.delete')
-            ->addColumn('checkbox', 'admin.countries.btn.checkbox')
+            ->addColumn('edit', 'admin.products.btn.edit')
+            ->addColumn('delete', 'admin.products.btn.delete')
+            ->addColumn('checkbox', 'admin.products.btn.checkbox')
             ->rawColumns([
                 'edit',
                 'delete',
@@ -39,7 +38,7 @@ class CountryDatatable extends DataTable
      */
     public function query()
     {
-        return Country::query();
+        return Product::query();
     }
     /**
      * Optional method if you want to use html builder.
@@ -113,10 +112,6 @@ class CountryDatatable extends DataTable
                 'name' => 'country_name_en',
                 'data' => 'country_name_en',
                 'title' => 'country name en',
-            ], [
-                'name' => 'currency',
-                'data' => 'currency',
-                'title' => 'Currency',
             ],[
                 'name' => 'created_at',
                 'data' => 'created_at',
@@ -152,6 +147,6 @@ class CountryDatatable extends DataTable
      */
     protected function filename()
     {
-        return 'countries_' . date('YmdHis');
+        return 'products_' . date('YmdHis');
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CountryRequest extends FormRequest
+class ProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -32,8 +32,6 @@ class CountryRequest extends FormRequest
         $rules['mob'] = 'required';
 
         $rules['code'] = 'required';
-
-        $rules['currency'] = 'required';
 
         if ($this->method() == 'POST'){
 

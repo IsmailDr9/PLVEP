@@ -151,6 +151,28 @@ $this->group(['prefix' => 'admin','namespace' => 'Admin'], function () {
          * End Sizes Controller
          */
 
+        /**
+         * Weight Controller
+         */
+        $this->resource('weights','WeightsController');
+        $this->delete('weights/destroy/all','WeightsController@multiDelete')->name('weights.delete.all');
+
+        /**
+         * End Weight Controller
+         */
+
+        /**
+         * Products Controller
+         */
+        $this->resource('products','ProductsController');
+        $this->delete('products/destroy/all','ProductsController@multiDelete')->name('products.delete.all');
+        $this->post('products/save/image/{productId}','ProductsController@uploadImage')->name('product.image');
+        $this->post('products/delete/image','ProductsController@deleteImage')->name('image.delete');
+
+        /**
+         * End Products Controller
+         */
+
 
         $this->get('/home', function () {
 

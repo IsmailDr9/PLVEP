@@ -131,4 +131,10 @@ if (!function_exists('loadDepartment')) {
         }
         return json_encode($dep_arr, JSON_UNESCAPED_UNICODE);
     }
+
+    if (!function_exists('up')) {
+        function up() {
+            return new \App\Http\Controllers\Upload;
+        }
+    }
 }

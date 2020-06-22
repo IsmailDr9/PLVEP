@@ -42,6 +42,13 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
+                            <input type="text" name="currency" value="{{$country->currency}}" class="form-control" placeholder="Enter currency code">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
                             {!! Form::file('logo',['class'=>'form-control']) !!}
                             @if(!empty($country->logo))
                                 <img src="{{Storage::url($country->logo)}}" style="width: 50px ; height: 50px"/>
