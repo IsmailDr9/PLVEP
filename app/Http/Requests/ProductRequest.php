@@ -25,22 +25,26 @@ class ProductRequest extends FormRequest
     {
         $rules = [];
 
-        $rules['country_name_ar'] = 'required';
-
-        $rules['country_name_en'] = 'required';
-
-        $rules['mob'] = 'required';
-
-        $rules['code'] = 'required';
-
-        if ($this->method() == 'POST'){
-
-            $rules['logo'] = 'required|'.validateImage();
-
-        }else{
-
-            $rules['logo'] = 'nullable|'.validateImage();
-        }
+        $rules['title'] = 'required';
+        $rules['content'] = 'required';
+        $rules['department_id'] = 'required|numeric';
+        $rules['brand_id'] = 'required|numeric';
+        $rules['manu_id'] = 'required|numeric';
+        $rules['color_id'] = 'nullable|numeric';
+        $rules['size_id'] = 'nullable|numeric';
+        $rules['weight'] = 'sometimes|nullable';
+        $rules['size'] = 'sometimes|nullable';
+        $rules['weight_id'] = 'required|nullable|numeric';
+        $rules['currency_id'] = 'nullable|numeric';
+        $rules['stock'] = 'required|numeric';
+        $rules['price'] = 'required|numeric';
+        $rules['start_at'] = 'nullable|date';
+        $rules['end_at'] = 'nullable|date';
+        $rules['price_offer'] = 'sometimes|nullable|numeric';
+        $rules['start_offer_at'] = 'sometimes|nullable|date';
+        $rules['end_offer_at'] = 'sometimes|nullable|date';
+        $rules['status'] = 'sometimes|nullable|in:pending,refused,active';
+        $rules['reason'] ='sometimes|nullable';
 
         return $rules;
     }

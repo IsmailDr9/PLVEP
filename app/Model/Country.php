@@ -16,4 +16,9 @@ class Country extends Model
         'logo',
         'currency'
     ];
+
+    public function malls()
+    {
+        return $this->hasMany(Mall::class,'country_id','id');
+    }
 }

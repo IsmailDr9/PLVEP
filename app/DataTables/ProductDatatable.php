@@ -105,13 +105,13 @@ class ProductDatatable extends DataTable
                 'data' => 'id',
                 'title' => '#',
             ], [
-                'name' => 'country_name_ar',
-                'data' => 'country_name_ar',
-                'title' => 'country name ar',
+                'name' => 'title',
+                'data' => 'title',
+                'title' => 'Title',
             ], [
-                'name' => 'country_name_en',
-                'data' => 'country_name_en',
-                'title' => 'country name en',
+                'name' => 'content',
+                'data' => 'content',
+                'title' => 'Content',
             ],[
                 'name' => 'created_at',
                 'data' => 'created_at',

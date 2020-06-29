@@ -16,6 +16,7 @@
 
 <!-- jQuery -->
 <script src="{{url('design/adminpanel/plugins/jquery/jquery.min.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
 <!-- jQuery UI 1.11.4 -->
 <script src="{{url('design/adminpanel/plugins/jquery-ui/jquery-ui.min.js')}}"></script>

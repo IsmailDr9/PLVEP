@@ -34,11 +34,17 @@
 
 
 {{-- js tree--}}
+    @if(Route::currentRouteName()  == 'products.edit')
+    <link rel="stylesheet" href="{{url('/')}}/design/adminpanel/jstree/themes/default-dark/style.css">
+    @else
     <link rel="stylesheet" href="{{url('/')}}/design/adminpanel/jstree/themes/default/style.css">
+    @endif
 
 {{-- js datepicker--}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 
+{{--Select 2--}}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 
     <!-- Google Font: Source Sans Pro -->
 {{--    <link href="{{url('/')}}/design/adminpanel/https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">--}}

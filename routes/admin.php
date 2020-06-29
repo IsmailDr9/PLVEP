@@ -168,6 +168,9 @@ $this->group(['prefix' => 'admin','namespace' => 'Admin'], function () {
         $this->delete('products/destroy/all','ProductsController@multiDelete')->name('products.delete.all');
         $this->post('products/save/image/{productId}','ProductsController@uploadImage')->name('product.image');
         $this->post('products/delete/image','ProductsController@deleteImage')->name('image.delete');
+        //Size And weight
+        $this->post('size/weight/{productId}','ProductsController@prepareWeightAndSize')->name('product.size.weight');
+
 
         /**
          * End Products Controller
@@ -182,8 +185,8 @@ $this->group(['prefix' => 'admin','namespace' => 'Admin'], function () {
         $this->any('logout','AdminAuth@logout')->name('admin.logout');
 
         //Settings Route
-        Route::get('settings', 'Settings@setting')->name('show.setting');
-        Route::post('settings', 'Settings@setting_save');
+//        Route::get('settings', 'Settings@setting')->name('show.setting');
+//        Route::post('settings', 'Settings@setting_save');
         //End Settings
 
     });

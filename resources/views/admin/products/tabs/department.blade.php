@@ -5,7 +5,10 @@
                 "core": {
                     'data': {!! loadDepartment($product->department_id) !!},
                     "themes": {
-                        "variant": "large"
+                        "name": "default-dark",
+                        "variant": "large",
+                        "icons": false,
+                        "dots": true,
                     }
                 },
                 "checkbox": {
@@ -19,7 +22,21 @@
             for (i = 0, j = data.selected.length; i < j; i++) {
                 r.push(data.instance.get_node(data.selected[i]).id);
             }
-            $('.parent_id').val(r.join(', '));
+            var department = r.join(', ');
+            $('.parent_id').val(department);
+
+            //Load weight and size
+            $.ajax({
+                url: "{{route('product.size.weight',$product->id)}}",
+                dataType:'html',
+                type:'post',
+                data:{_token:'{{csrf_token()}}',dep_id:department},
+                success:function (data)
+                {
+                    $('.size_weight').html(data);
+                    $('.product-color-and-brand').show();
+                }
+            });
         });
     </script>
 @endpush

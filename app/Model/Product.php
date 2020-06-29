@@ -27,6 +27,7 @@ class Product extends Model
         'manu_id',
         'color_id',
         'size_id',
+        'size',
         'weight',
         'weight_id',
         'currency_id',
@@ -45,5 +46,10 @@ class Product extends Model
     public function files(){
 
         return $this->hasMany(File::class,'relation_id','id')->where('file_type',self::PRODUCT);
+    }
+
+    public function otherData()
+    {
+        return $this->hasMany(OtherData::class,'product_id','id');
     }
 }

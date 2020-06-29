@@ -1,5 +1,8 @@
 <?php
 
+use App\Model\Department;
+use App\Model\MallProduct;
+
 if (!function_exists('aurl')) {
     function aurl($url = null) {
         return url('admin/'.$url);
@@ -131,10 +134,36 @@ if (!function_exists('loadDepartment')) {
         }
         return json_encode($dep_arr, JSON_UNESCAPED_UNICODE);
     }
+}
 
-    if (!function_exists('up')) {
-        function up() {
-            return new \App\Http\Controllers\Upload;
+if (!function_exists('getParent')) {
+
+    function getParent($depId)
+    {
+        $department = Department::find($depId);
+
+        if ($department->parent !== null && $department->parent > 0) {
+
+            return getParent($department->parent) . ',' . $depId;
+
+        } else {
+
+            return $depId;
+
         }
+    }
+}
+
+if (!function_exists('up')) {
+    function up() {
+        return new \App\Http\Controllers\Upload;
+    }
+}
+
+//scan mall id exist
+if (!function_exists('mallId')){
+    function mallId($mallId, $productId){
+        return MallProduct::where('product_id',$productId)->where('mall_id',$mallId)
+            ->count()  >0;
     }
 }

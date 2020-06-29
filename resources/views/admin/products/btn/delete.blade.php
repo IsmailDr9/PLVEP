@@ -13,7 +13,7 @@
             {!! Form::open(['route' => ['products.destroy','id'=>$id], 'method' => 'delete']) !!}
             	
             <div class="modal-body">
-{{--                <p>Delete This Color {!! App\helper\Useful::getColorName($id) !!}</p>--}}
+                <p>Delete This Product {!! App\helper\Useful::getProductName($id) !!}</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>

@@ -47,5 +47,6 @@
         });
     </script>
 @endpush
+<hr/>
 
 <div class="dropzone" id="dropzone_file_upload"></div>

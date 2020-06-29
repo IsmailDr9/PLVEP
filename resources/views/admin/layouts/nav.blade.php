@@ -378,3 +378,11 @@
     </div>
     <!-- /.sidebar -->
 </aside>
+<style>
+    :not(.layout-fixed) .main-sidebar {
+        height: inherit;
+        min-height: 100%;
+        position: fixed;
+        top: 0;
+    }
+</style>

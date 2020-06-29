@@ -7,6 +7,7 @@ use App\Model\City;
 use App\Model\Color;
 use App\Model\Mall;
 use App\Model\Manufacturer;
+use App\Model\Product;
 use App\Model\Size;
 use App\Model\State;
 use App\Model\Weight;
@@ -141,6 +142,19 @@ class Useful {
             $model = Color::find($id);
             if (!empty($model)) {
                 return $model->name_en;
+            } else {
+                return '';
+            }
+        } else {
+            return '';
+        }
+    }
+    public static function getProductName($id)
+    {
+        if (!is_null($id)) {
+            $model = Product::find($id);
+            if (!empty($model)) {
+                return $model->title;
             } else {
                 return '';
             }

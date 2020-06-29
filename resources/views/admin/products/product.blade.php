@@ -7,6 +7,48 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('.js-example-basic-single').select2();
+
+            $(document).on('click','.save_and_continue',function () {
+                var form_data = $('#product_form').serialize();
+                $.ajax({
+                    url:'{{route('products.update',$product->id)}}',
+                    dataType:'json',
+                    type:'put',
+                    data:form_data,
+                    beforeSend:function () {
+
+                        $('.loading_save_c').show();
+                        $('.validate_message').html('');
+                        $('.error_message').hide();
+
+                    },success: function (data) {
+                        if(data.status == true ){
+                            $('.validate_message_success').html(data.message);
+
+                            $('.success_message').show();
+                            setTimeout(
+                                function() {
+                                     $(".success_message").fadeOut();
+                                }, 5000);
+
+                            $('.error_message').hide();
+                            $('.loading_save_c').hide();
+                        }
+                    },error(response){
+
+                        // $('.loading_save_c').hide();
+                        var error_li = '';
+                        $.each(response.responseJSON.errors,function (index,value) {
+                            error_li +='<li>'+value+'</li>';
+                        });
+                        $('.validate_message').html(error_li);
+                        $('.error_message').show();
+                        $('.success_message').hide();
+
+                    }
+                });
+                return false;
+            });
         });
     </script>
 @endpush
@@ -16,14 +58,26 @@
                 <h3 class="box-title">{{$title}}</h3>
             </div>
             <hr class="box-body">
-            {!! Form::open(['route' => 'products.store', 'method' => 'post', 'files'=>true]) !!}
+            {!! Form::open(['route' => 'products.store', 'method' => 'put', 'files'=>true, 'id'=>'product_form']) !!}
             <div>
                 <a href="#" class="btn btn-primary save">Save <i class="fa fa-floppy-o"></i></a>
-                <a href="#" class="btn btn-success save_and_delete">Save And Continue <i class="fa fa-floppy-o"></i></a>
+                <a href="#" class="btn btn-success save_and_continue">Save And Continue <i class="fa fa-floppy-o"></i>
+                    <i class="fa fa-spin fa-spinner loading_save_c" style="display: none"></i>
+                </a>
                 <a href="#" class="btn btn-info copy_product">Copy Product <i class="fa fa-copy"></i></a>
                 <a href="#" class="btn btn-danger delete">Delete <i class="fa fa-trash"></i></a>
             </div>
             <hr/>
+            <div class="alert alert-danger error_message" style="display: none">
+                <ul class="validate_message">
+
+                </ul>
+            </div>
+            <div class="alert alert-success success_message" style="display: none">
+                <ul class="validate_message_success">
+
+                </ul>
+            </div>
             <div>
                 <nav class="nav nav-pills nav-fill">
                     <ul class="nav nav-pills" id="tabs-icons-text" role="tablist">
@@ -80,6 +134,7 @@
                     @include('admin.products.tabs.product_media')
                 </div>
                 <div id="menu5" class="tab-pane fade">
+                    <h3>Product Size And Weight</h3>
                     @include('admin.products.tabs.product_size_and_weight')
                 </div>
                 <div id="menu6" class="tab-pane fade">
@@ -88,7 +143,9 @@
             </div>
             <hr/>
             <a href="#" class="btn btn-primary save">Save <i class="fa fa-floppy-o"></i></a>
-            <a href="#" class="btn btn-success save_and_delete">Save And Continue <i class="fa fa-floppy-o"></i></a>
+            <a href="#" class="btn btn-success save_and_continue">Save And Continue <i class="fa fa-floppy-o"></i>
+                <i class="fa fa-spin fa-spinner loading_save_c" style="display: none"></i>
+            </a>
             <a href="#" class="btn btn-info copy_product">Copy Product <i class="fa fa-copy"></i></a>
             <a href="#" class="btn btn-danger delete">Delete <i class="fa fa-trash"></i></a>
             {!! Form::close() !!}
