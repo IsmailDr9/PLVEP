@@ -185,8 +185,8 @@ $this->group(['prefix' => 'admin','namespace' => 'Admin'], function () {
         $this->any('logout','AdminAuth@logout')->name('admin.logout');
 
         //Settings Route
-//        Route::get('settings', 'Settings@setting')->name('show.setting');
-//        Route::post('settings', 'Settings@setting_save');
+        Route::get('settings', 'Settings@setting')->name('show.setting');
+        Route::post('settings', 'Settings@setting_save');
         //End Settings
 
     });

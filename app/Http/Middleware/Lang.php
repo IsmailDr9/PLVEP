@@ -21,7 +21,6 @@ class Lang
 //        app()->setLocale(Useful::getLang());
 //        return $next($request);
 
-dd('adaza');
         if (session()->has('lang')){
             app()->setLocale(session('lang'));
         }else{
