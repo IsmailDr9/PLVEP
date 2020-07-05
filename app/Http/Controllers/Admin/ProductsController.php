@@ -114,67 +114,23 @@ class ProductsController extends Controller
             OtherData::where('product_id',$product->id)->delete();
             foreach ($request->get('input_key') as $key) {
 
-                $dataValue = !empty($request->get('input_key')[$i])?$request->get('input_value')[$i]:'';
+                if (!empty($request->get('input_key')) && !empty($request->get('input_value'))){
+                    $dataValue = !empty($request->get('input_key')[$i])?$request->get('input_value')[$i]:'';
 
-                OtherData::create([
-                    'product_id' => $product->id,
-                    'data_key' => $key,
-                    'data_value' => $dataValue,
-                ]);
-                $i++;
+                    OtherData::create([
+                        'product_id' => $product->id,
+                        'data_key' => $key,
+                        'data_value' => $dataValue,
+                    ]);
+                    $i++;
+                }
+
             }
         }
 
         $product->update($att);
 
         return response(['status' => true, 'message' => 'Products Update Success'], 200);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function destroy($id)
-    {
-        if ($id == Auth::id()) {
-
-            session()->flash('info', 'This Admin Your Account Cant Delete');
-            return redirect('admin/admin');
-
-        } else {
-
-            $product = Product::find($id);
-            Storage::delete($product->logo);
-            $productName = $product->Product_name_en;
-            $product->delete();
-            session()->flash('danger', 'Product ' . $productName . ' Delete Success');
-            return redirect('admin/products');
-        }
-    }
-
-    /**
-     * Remove the all resource Select from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function multiDelete(Request $request)
-    {
-        if (is_array(request('item'))) {
-            foreach (request('item') as $id) {
-                $product = Product::find($id);
-                Storage::delete($product->logo);
-                $product->delete();
-            }
-        } else {
-            $product = Product::find(request('item'));
-            Storage::delete($product->logo);
-            $product->delete();
-        }
-        session()->flash('danger', 'Product Delete Success');
-        return redirect('admin/products');
     }
 
     /**
@@ -199,7 +155,28 @@ class ProductsController extends Controller
     }
 
     /**
-     * Delete Product Images To Storage.
+     * Upload Product Images To Storage.
+     *
+     * @param int $productId
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Foundation\Application|\Symfony\Component\HttpFoundation\Response
+     */
+    public function uploadPrimaryImage($productId)
+    {
+        $product = Product::findOrFail($productId);
+
+        if (request()->hasFile('file')) {
+
+            $productLogo = request()->file('file')->store('products') ;
+            $product->photo = $productLogo;
+            $product->save();
+
+            return response(['status' => true, 'id' => $productId], 200);
+
+        }
+    }
+
+    /**
+     * Delete Product Images From Storage.
      *
      */
     public function deleteImage()
@@ -207,6 +184,20 @@ class ProductsController extends Controller
         if (request()->has('id')) {
             return up()->delete(request('id'));
         }
+    }
+
+    /**
+     * Delete Product Images Primary From Storage.
+     * @param $productId
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Foundation\Application|\Symfony\Component\HttpFoundation\Response
+     */
+    public function deletePrimaryImage($productId)
+    {
+        $product = Product::findOrFail($productId);
+        Storage::delete($product->photo);
+        $product->photo = null;
+        $product->save();
+        return response(['status' => true], 200);
     }
 
     /**
@@ -238,5 +229,176 @@ class ProductsController extends Controller
             return 'Please Select Department';
 
         }
+    }
+    /**
+     * Remove the all resource Select from storage.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function multiDelete(Request $request)
+    {
+        if (is_array(request('item'))) {
+            foreach (request('item') as $id) {
+                $product = Product::find($id);
+
+                //delete File And All Photo For this Product
+                $this->deleteProductFile($product->id);
+
+                //delete All Mall Products
+                $this->deleteProductMall($product->id);
+
+                //delete All Other Data For this Product
+                $this->deleteProductOtherData($product->id);
+
+                $product->delete();
+            }
+        } else {
+            $product = Product::find(request('item'));
+
+            //delete File And All Photo For this Product
+            $this->deleteProductFile($product->id);
+
+            //delete All Mall Products
+            $this->deleteProductMall($product->id);
+
+            //delete All Other Data For this Product
+            $this->deleteProductOtherData($product->id);
+
+            $product->delete();
+        }
+        session()->flash('danger', 'Product Delete Success');
+        return redirect('admin/products');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function destroy($id)
+    {
+        $product = Product::findOrFail($id);
+
+        //delete File And All Photo For this Product
+        $this->deleteProductFile($product->id);
+
+        //delete All Mall Products
+        $this->deleteProductMall($product->id);
+
+        //delete All Other Data For this Product
+        $this->deleteProductOtherData($product->id);
+
+        $productName = $product->title;
+        $product->delete();
+        session()->flash('danger', 'Product ' . $productName . ' Delete Success');
+        return redirect('admin/products');
+    }
+
+    /**
+     * Delete All Product Photo
+     * @param $productId
+     */
+    public function deleteProductFile($productId)
+    {
+        $photos = File::where('file_type','product')->where('relation_id',$productId)->get();
+        if (!empty($photos)){
+            foreach ($photos as $photo){
+                Storage::delete($photo->full_file);
+                Storage::deleteDirectory($photo->path);
+                $photo->delete();
+            }
+        }
+    }
+
+    /**
+     * Delete All Product Mall
+     * @param $productId
+     */
+    public function deleteProductMall($productId)
+    {
+        $malls = MallProduct::where('product_id',$productId)->get();
+        if (!empty($malls)){
+            foreach ($malls as $mall){
+                $mall->delete();
+            }
+        }
+    }
+
+    /**
+     * Delete Product All Other Data
+     * @param $productId
+     */
+    public function deleteProductOtherData($productId)
+    {
+        $otherData = OtherData::where('product_id',$productId)->get();
+        if (!empty($otherData)){
+            foreach ($otherData as $othersDatum){
+                $othersDatum->delete();
+            }
+        }
+    }
+
+    /**
+     * Copy Product
+     * @param $productId
+     */
+    public function productCopy($productId)
+    {
+        $copyProduct = Product::findOrFail($productId)->toArray();
+
+        unset($copyProduct['id']);
+        $product = Product::create($copyProduct);
+
+        $ext = \Illuminate\Support\Facades\File::extension($copyProduct['photo']);
+//        $newPath = 'products/' .$product->id.'/'.str_random(30).'.'.$ext;
+        $newPath = 'products/'.str_random(30).'.'.$ext;
+        Storage::copy($copyProduct['photo'],$newPath);
+        $product->photo = $newPath;
+        $product->save();
+
+        $orginalProduct = Product::findOrFail($productId);
+
+        $malls  = MallProduct::where('product_id',$orginalProduct->id)->get();
+        if (!empty($malls)){
+            foreach ($malls as $mall){
+                MallProduct::create([
+                    'product_id' => $product->id,
+                    'mall_id'    => $mall->mall_id,
+                ]);
+            }
+        }
+
+        $otherData = OtherData::where('product_id',$orginalProduct->id)->get();
+        if (!empty($otherData)){
+            foreach ($otherData as $otherDatum){
+                OtherData::create([
+                    'product_id' => $product->id,
+                    'data_key'   => $otherDatum->data_key,
+                    'data_value' => $otherDatum->data_value,
+                ]);
+            }
+        }
+
+//        $photos = File::where('file_type','product')->where('relation_id',$orginalProduct->id)->get();
+//        if (!empty($photos)){
+//            foreach ($photos as $photo){
+//                up()->moveImage([
+//                    'file' => $photo->file,
+//                    'path' => 'products/' . $product->id,
+//                    'file_type' => 'product',
+//                    'upload_type' => 'files',
+//                    'relation_id' => $product->id,
+//                    'name' => $photo->name,
+//                    'size' => $photo->size,
+//                    'mineType' => $photo->mime_type,
+//                    'full_file' => $photo->full_file
+//
+//                ]);
+//            }
+//        }
+        session()->flash('success', 'Product Copied Success');
+        return redirect(route('products.edit', $product->id));
     }
 }

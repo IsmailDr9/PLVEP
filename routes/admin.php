@@ -1,8 +1,8 @@
 <?php
 
-//Route::get('event/test', function () {
-//    return event(new \App\Events\EventTest('some text by event test'));
-//});
+Route::get('event/test', function () {
+    return event(new \App\Events\EventTest('some text by event test'));
+});
 $this->group(['prefix' => 'admin','namespace' => 'Admin'], function () {
 
     Config::set('auth.defines', 'admin');
@@ -170,6 +170,11 @@ $this->group(['prefix' => 'admin','namespace' => 'Admin'], function () {
         $this->post('products/delete/image','ProductsController@deleteImage')->name('image.delete');
         //Size And weight
         $this->post('size/weight/{productId}','ProductsController@prepareWeightAndSize')->name('product.size.weight');
+        //copy product
+        $this->get('products/copy/{productId}','ProductsController@productCopy')->name('product.copy');
+        //Upload Primary Image And Delete
+        $this->post('products/save/primary/image/{productId}','ProductsController@uploadPrimaryImage')->name('product.primary.image');
+        $this->post('products/delete/primary/image/{productId}','ProductsController@deletePrimaryImage')->name('image.primary.delete');
 
 
         /**
@@ -185,8 +190,8 @@ $this->group(['prefix' => 'admin','namespace' => 'Admin'], function () {
         $this->any('logout','AdminAuth@logout')->name('admin.logout');
 
         //Settings Route
-        Route::get('settings', 'Settings@setting')->name('show.setting');
-        Route::post('settings', 'Settings@setting_save');
+        $this::get('settings', 'Settings@setting')->name('show.setting');
+        $this::post('settings', 'Settings@setting_save');
         //End Settings
 
     });

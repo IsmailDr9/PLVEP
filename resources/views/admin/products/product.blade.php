@@ -52,6 +52,28 @@
         });
     </script>
 @endpush
+<!-- Modal Delete -->
+<div id="del_user{{$product->id}}" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Admin Delete</h4>
+            </div>
+            {!! Form::open(['route' => ['products.destroy','id'=>$product->id], 'method' => 'delete']) !!}
+
+            <div class="modal-body">
+                <p>Delete This Product {!! App\helper\Useful::getProductName($product->id) !!}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                {!! Form::submit('Yes', ['class' => 'btn btn-danger']) !!}
+            </div>
+            {!! Form::close() !!}
+        </div>
+    </div>
+</div>
+
     <div class="card" style="padding: 23px">
         <div class="box">
             <div class="box-header">
@@ -64,8 +86,8 @@
                 <a href="#" class="btn btn-success save_and_continue">Save And Continue <i class="fa fa-floppy-o"></i>
                     <i class="fa fa-spin fa-spinner loading_save_c" style="display: none"></i>
                 </a>
-                <a href="#" class="btn btn-info copy_product">Copy Product <i class="fa fa-copy"></i></a>
-                <a href="#" class="btn btn-danger delete">Delete <i class="fa fa-trash"></i></a>
+                <a href="{{route('product.copy',$product->id)}}" class="btn btn-info copy_product">Copy Product <i class="fa fa-copy"></i></a>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del_user{{$product->id}}">Delete <i class="fa fa-trash"></i></button>
             </div>
             <hr/>
             <div class="alert alert-danger error_message" style="display: none">
@@ -146,7 +168,7 @@
             <a href="#" class="btn btn-success save_and_continue">Save And Continue <i class="fa fa-floppy-o"></i>
                 <i class="fa fa-spin fa-spinner loading_save_c" style="display: none"></i>
             </a>
-            <a href="#" class="btn btn-info copy_product">Copy Product <i class="fa fa-copy"></i></a>
+            <a href="{{route('product.copy',$product->id)}}" class="btn btn-info copy_product">Copy Product <i class="fa fa-copy"></i></a>
             <a href="#" class="btn btn-danger delete">Delete <i class="fa fa-trash"></i></a>
             {!! Form::close() !!}
         </div>

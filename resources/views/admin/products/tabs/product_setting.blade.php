@@ -3,6 +3,7 @@
         $('.date-picker').datepicker({
             autoclose:true,
             clearBtn:true,
+            format: 'yyyy-mm-dd',
         });
 
         $(document).on('change','.status',function () {

@@ -38,11 +38,11 @@ class ProductRequest extends FormRequest
         $rules['currency_id'] = 'nullable|numeric';
         $rules['stock'] = 'required|numeric';
         $rules['price'] = 'required|numeric';
-        $rules['start_at'] = 'nullable|date';
-        $rules['end_at'] = 'nullable|date';
+        $rules['start_at'] = 'nullable|date|date_format:Y-m-d';
+        $rules['end_at'] = 'nullable|date|date_format:Y-m-d';
         $rules['price_offer'] = 'sometimes|nullable|numeric';
-        $rules['start_offer_at'] = 'sometimes|nullable|date';
-        $rules['end_offer_at'] = 'sometimes|nullable|date';
+        $rules['start_offer_at'] = 'sometimes|nullable|date|date_format:Y-m-d';
+        $rules['end_offer_at'] = 'sometimes|nullable|date|date_format:Y-m-d';
         $rules['status'] = 'sometimes|nullable|in:pending,refused,active';
         $rules['reason'] ='sometimes|nullable';
 
