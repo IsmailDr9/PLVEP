@@ -134,6 +134,11 @@
                                 Other Data <i class="fa fa-database"></i>
                             </a>
                         </li>
+                        <li>
+                            <a data-toggle="tab" class="nav-item nav-link btn btn-outline-info" href="#menu7" style="margin: 3px">
+                                Related Product <i class="fa fa-list"></i>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -161,6 +166,9 @@
                 </div>
                 <div id="menu6" class="tab-pane fade">
                     @include('admin.products.tabs.other_data')
+                </div>
+                <div id="menu7" class="tab-pane fade">
+                    @include('admin.products.tabs.related_product')
                 </div>
             </div>
             <hr/>

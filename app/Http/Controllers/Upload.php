@@ -40,14 +40,14 @@ class Upload extends Controller {
 
             $file->store($data['path']);
             $add = File::create([
-                'name' => $name,
-                'size' => $size,
-                'file' => $hashName,
-                'path' => $data['path'],
-                'full_file' => $data['path'] . '/' . $hashName,
-                'mime_type' => $mimType,
-                'file_type' => $data['file_type'],
-                'relation_id' => $data['relation_id'],
+                'name'          => $name,
+                'size'          => $size,
+                'file'          => $hashName,
+                'path'          => $data['path'],
+                'full_file'     => $data['path'] . '/' . $hashName,
+                'mime_type'     => $mimType,
+                'file_type'     => $data['file_type'],
+                'relation_id'   => $data['relation_id'],
             ]);
             return $add->id ;
         }
@@ -67,14 +67,14 @@ class Upload extends Controller {
 
         }
         $add = File::create([
-            'name' => $data['name'],
-            'size' => $data['size'],
-            'file' => $data['file'],
-            'path' => $data['path'],
-            'full_file' => $data['full_file'],
-            'mime_type' => $data['mineType'],
-            'file_type' => $data['file_type'],
-            'relation_id' => $data['relation_id'],
+            'name'          => $data['name'],
+            'size'          => $data['size'],
+            'file'          => $data['file'],
+            'path'          => $data['path'],
+            'full_file'     => $data['full_file'],
+            'mime_type'     => $data['mineType'],
+            'file_type'     => $data['file_type'],
+            'relation_id'   => $data['relation_id'],
         ]);
         return $add->id ;
     }

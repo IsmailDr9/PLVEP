@@ -175,6 +175,8 @@ $this->group(['prefix' => 'admin','namespace' => 'Admin'], function () {
         //Upload Primary Image And Delete
         $this->post('products/save/primary/image/{productId}','ProductsController@uploadPrimaryImage')->name('product.primary.image');
         $this->post('products/delete/primary/image/{productId}','ProductsController@deletePrimaryImage')->name('image.primary.delete');
+        //Search Related Product
+        $this->post('search/related/product/{productId}','ProductsController@searchRelatedProduct')->name('product.search');
 
 
         /**

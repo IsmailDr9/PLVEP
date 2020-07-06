@@ -3,18 +3,25 @@
 namespace App\Http\Controllers\Admin;
 
 use App\File;
-use App\Model\Color;
-use App\Model\MallProduct;
-use App\Model\OtherData;
-use App\Model\Product;
+use App\Model\RelatedProduct;
+use Throwable;
 use App\Model\Size;
 use App\Model\Weight;
+use App\Model\Product;
+use App\Model\OtherData;
+use Illuminate\View\View;
+use App\Model\MallProduct;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use App\DataTables\ProductDatatable;
-use App\Http\Requests\ProductRequest;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\ProductRequest;
+use Illuminate\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Contracts\Routing\ResponseFactory;
 
 class ProductsController extends Controller
 {
@@ -32,7 +39,7 @@ class ProductsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return Application|RedirectResponse|Redirector
      */
     public function create()
     {
@@ -49,7 +56,7 @@ class ProductsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param ProductRequest $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function store(ProductRequest $request)
     {
@@ -76,7 +83,7 @@ class ProductsController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function edit($id)
     {
@@ -89,7 +96,7 @@ class ProductsController extends Controller
      *
      * @param ProductRequest $request
      * @param int $id
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Foundation\Application|\Symfony\Component\HttpFoundation\Response
+     * @return ResponseFactory|Application|Response
      */
     public function update(ProductRequest $request, $id)
     {
@@ -98,12 +105,23 @@ class ProductsController extends Controller
         $att = $request->post();
 
         MallProduct::where('product_id', $product->id)->delete();
-        if ($request->has('malls')){
+        if ($request->has('malls')) {
             MallProduct::where('product_id', $product->id)->delete();
-            foreach ($request->get('malls') as $mall){
+            foreach ($request->get('malls') as $mall) {
                 MallProduct::create([
                     'product_id' => $product->id,
-                    'mall_id'    => $mall,
+                    'mall_id' => $mall,
+                ]);
+            }
+        }
+
+        RelatedProduct::where('product_id', $product->id)->delete();
+        if ($request->has('related')){
+            RelatedProduct::where('product_id', $product->id)->delete();
+            foreach ($request->get('related') as $related){
+                RelatedProduct::create([
+                    'product_id' => $product->id,
+                    'related_product_id'    => $related,
                 ]);
             }
         }
@@ -137,7 +155,7 @@ class ProductsController extends Controller
      * Upload Product Images To Storage.
      *
      * @param int $productId
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Foundation\Application|\Symfony\Component\HttpFoundation\Response
+     * @return ResponseFactory|Application|Response
      */
     public function uploadImage($productId)
     {
@@ -158,7 +176,7 @@ class ProductsController extends Controller
      * Upload Product Images To Storage.
      *
      * @param int $productId
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Foundation\Application|\Symfony\Component\HttpFoundation\Response
+     * @return ResponseFactory|Application|Response
      */
     public function uploadPrimaryImage($productId)
     {
@@ -189,7 +207,7 @@ class ProductsController extends Controller
     /**
      * Delete Product Images Primary From Storage.
      * @param $productId
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Foundation\Application|\Symfony\Component\HttpFoundation\Response
+     * @return ResponseFactory|Application|Response
      */
     public function deletePrimaryImage($productId)
     {
@@ -205,7 +223,7 @@ class ProductsController extends Controller
      *
      * @param $productId
      * @return string
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function prepareWeightAndSize($productId)
     {
@@ -230,11 +248,12 @@ class ProductsController extends Controller
 
         }
     }
+
     /**
      * Remove the all resource Select from storage.
      *
-     * @param int $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @param Request $request
+     * @return RedirectResponse|Redirector
      */
     public function multiDelete(Request $request)
     {
@@ -275,7 +294,7 @@ class ProductsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse|Redirector
      */
     public function destroy($id)
     {
@@ -343,6 +362,7 @@ class ProductsController extends Controller
     /**
      * Copy Product
      * @param $productId
+     * @return Application|RedirectResponse|Redirector
      */
     public function productCopy($productId)
     {
@@ -351,12 +371,39 @@ class ProductsController extends Controller
         unset($copyProduct['id']);
         $product = Product::create($copyProduct);
 
-        $ext = \Illuminate\Support\Facades\File::extension($copyProduct['photo']);
-//        $newPath = 'products/' .$product->id.'/'.str_random(30).'.'.$ext;
-        $newPath = 'products/'.str_random(30).'.'.$ext;
-        Storage::copy($copyProduct['photo'],$newPath);
-        $product->photo = $newPath;
-        $product->save();
+        //copy primary photo
+        if (!empty($copyProduct['photo'])){
+
+            $ext = \Illuminate\Support\Facades\File::extension($copyProduct['photo']);
+//          $newPath = 'products/' .$product->id.'/'.str_random(30).'.'.$ext;
+            $newPath = 'products/'.str_random(30).'.'.$ext;
+            Storage::copy($copyProduct['photo'],$newPath);
+            $product->photo = $newPath;
+            $product->save();
+        }
+
+        //Copy Other Photo
+        $files = File::where('relation_id', $productId)->where('file_type', 'product')->get();
+        if ($files->count() > 0) {
+            foreach ($files as $file) {
+
+                $hashName = str_random(30);
+                $ext = \Illuminate\Support\Facades\File::extension($file->full_file);
+                $newPath = 'products/' .$product->id.'/'.$hashName.'.'.$ext;
+                Storage::copy($file->full_file,$newPath);
+
+                File::create([
+                    'name'          => $file->name,
+                    'size'          => $file->size,
+                    'file'          => $hashName.'.'.$ext,
+                    'path'          => 'products/'.$product->id,
+                    'full_file'     => 'products/'.$product->id . '/' . $hashName.'.'.$ext,
+                    'mime_type'     => $file->mime_type,
+                    'file_type'     => 'product',
+                    'relation_id'   => $product->id,
+                ]);
+            }
+        }
 
         $orginalProduct = Product::findOrFail($productId);
 
@@ -381,24 +428,32 @@ class ProductsController extends Controller
             }
         }
 
-//        $photos = File::where('file_type','product')->where('relation_id',$orginalProduct->id)->get();
-//        if (!empty($photos)){
-//            foreach ($photos as $photo){
-//                up()->moveImage([
-//                    'file' => $photo->file,
-//                    'path' => 'products/' . $product->id,
-//                    'file_type' => 'product',
-//                    'upload_type' => 'files',
-//                    'relation_id' => $product->id,
-//                    'name' => $photo->name,
-//                    'size' => $photo->size,
-//                    'mineType' => $photo->mime_type,
-//                    'full_file' => $photo->full_file
-//
-//                ]);
-//            }
-//        }
         session()->flash('success', 'Product Copied Success');
         return redirect(route('products.edit', $product->id));
+    }
+
+    /**
+     * Search Related Product
+     * @param $productId
+     * @return ResponseFactory|Application|Response
+     */
+    public function searchRelatedProduct($productId)
+    {
+        if (request()->ajax()) {
+            if (request()->has('search') && !empty(request()->get('search'))) {
+                $productRelated = RelatedProduct::where('product_id',$productId)->pluck('related_product_id');
+                $products = Product::where('title','LIKE','%'.request('search').'%')
+                    ->whereNotIn('id',$productRelated)
+                    ->where('id','!=',$productId)
+                    ->limit(10)
+                    ->orderBy('id','desc')
+                    ->get();
+                return response(['status' => true,
+                    'result'        => $products->count() > 0 ? $products : '',
+                    'count'         => $products->count(),
+                ], 200);
+            }
+
+        }
     }
 }

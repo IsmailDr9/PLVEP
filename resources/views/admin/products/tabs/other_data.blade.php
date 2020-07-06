@@ -7,11 +7,11 @@
 
                 $('.div_inputs').append('<div>'+
                     '<div class="col-md-6">'+
-                    '{!! Form::label('input_key',trans('admin.input_key')) !!}'+
+                    '{!! Form::label('input_key','Input Key') !!}'+
                     '{!! Form::text('input_key[]','',['class'=>'form-control']) !!}'+
                     '</div>'+
                     '<div class="col-md-6">'+
-                    '{!! Form::label('input_value',trans('admin.input_value')) !!}'+
+                    '{!! Form::label('input_value','Input Value') !!}'+
                     '{!! Form::text('input_value[]','',['class'=>'form-control']) !!}'+
                     '</div>'+
                     '<div class="clearfix"></div>'+

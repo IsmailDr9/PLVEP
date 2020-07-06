@@ -52,4 +52,9 @@ class Product extends Model
     {
         return $this->hasMany(OtherData::class,'product_id','id');
     }
+
+    public function related()
+    {
+        return $this->hasMany(RelatedProduct::class,'product_id','id');
+    }
 }
